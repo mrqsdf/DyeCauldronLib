@@ -1,4 +1,4 @@
-package fr.mrqsdf.ressource;
+package fr.mrqsdf.dyecauldron.ressource;
 
 import org.bukkit.Material;
 

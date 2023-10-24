@@ -1,10 +1,9 @@
-package fr.mrqsdf.ressource;
+package fr.mrqsdf.dyecauldron.ressource;
 
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
-import org.w3c.dom.css.RGBColor;
 
 public class ItemPotionUtilities {
 

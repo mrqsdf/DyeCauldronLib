@@ -1,6 +1,6 @@
-package fr.mrqsdf.api;
+package fr.mrqsdf.dyecauldron.api;
 
-import fr.mrqsdf.armorstand.SummonArmorstand;
+import fr.mrqsdf.dyecauldron.armorstand.SummonArmorstand;
 import jdk.jfr.Description;
 import org.bukkit.Color;
 import org.bukkit.Location;

@@ -1,8 +1,8 @@
-package fr.mrqsdf.listener;
+package fr.mrqsdf.dyecauldron.listener;
 
-import fr.mrqsdf.DyeCauldron;
-import fr.mrqsdf.armorstand.SummonArmorstand;
-import fr.mrqsdf.ressource.DyeColorUtils;
+import fr.mrqsdf.dyecauldron.DyeCauldron;
+import fr.mrqsdf.dyecauldron.armorstand.SummonArmorstand;
+import fr.mrqsdf.dyecauldron.ressource.DyeColorUtils;
 import jdk.jfr.Description;
 import org.bukkit.Color;
 import org.bukkit.Location;
