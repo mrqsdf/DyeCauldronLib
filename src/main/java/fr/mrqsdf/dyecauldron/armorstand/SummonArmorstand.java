@@ -1,6 +1,6 @@
-package fr.mrqsdf.armorstand;
+package fr.mrqsdf.dyecauldron.armorstand;
 
-import fr.mrqsdf.ressource.ItemPotionUtilities;
+import fr.mrqsdf.dyecauldron.ressource.ItemPotionUtilities;
 import jdk.jfr.Description;
 import org.bukkit.Color;
 import org.bukkit.Location;

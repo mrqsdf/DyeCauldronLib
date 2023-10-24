@@ -1,6 +1,6 @@
-package fr.mrqsdf.listener;
+package fr.mrqsdf.dyecauldron.listener;
 
-import fr.mrqsdf.DyeCauldron;
+import fr.mrqsdf.dyecauldron.DyeCauldron;
 import jdk.jfr.Description;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -8,7 +8,6 @@ import org.bukkit.entity.ArmorStand;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.inventory.meta.ItemMeta;
 
 public class CauldronBreakListener implements Listener {
 

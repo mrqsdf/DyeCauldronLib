@@ -1,4 +1,4 @@
-package fr.mrqsdf;
+package fr.mrqsdf.dyecauldron;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
