@@ -33,7 +33,7 @@ public class ItemPotionUtilities {
         return item;
     }
 
-    public static ItemStack dyeCauldronLeve1(int r, int g, int b){
+    public static ItemStack dyeCauldronLevel1(int r, int g, int b){
         ItemStack item = new ItemStack(Material.POTION);
         PotionMeta potionMeta = (PotionMeta) item.getItemMeta();
         potionMeta.setColor(Color.fromRGB(r, g, b));
