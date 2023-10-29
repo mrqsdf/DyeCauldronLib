@@ -1,6 +1,7 @@
 plugins {
     id 'java'
 }
+apply plugin: 'maven-publish'
 
 group = 'fr.mrqsdf'
 version = '1.0-SNAPSHOT'
@@ -21,4 +22,20 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'fr.mrqsdf'
+            artifactId = 'dyecauldronlib'
+            version = "1.0-SNAPSHOT"
+            from components.java
+
+            pom {
+                name = 'DyeCauldronLib'
+                description = 'A Spigot Library for colored water in cauldrons'
+            }
+        }
+    }
 }

@@ -155,6 +155,7 @@
       <element id="library" level="project" name="Gradle: org.opentest4j:opentest4j:1.2.0" />
       <element id="library" level="project" name="Gradle: org.junit.jupiter:junit-jupiter-engine:5.9.1" />
       <element id="library" level="project" name="Gradle: org.junit.platform:junit-platform-engine:1.9.1" />
+      <element id="library" level="project" name="Gradle: com.jeff-media:custom-block-data:2.2.2" />
     </root>
   </artifact>
 </component>

@@ -34,9 +34,11 @@ public class CauldronData implements Serializable {
      */
     public int level;
     /**
-     * list of another object in the cauldron
+     * map of another object in the cauldron
+     * the first string is the data name of the object
+     * the second object is the object
      */
-    public List<Object> objects;
+    public Map<String ,Object> objects = new HashMap<>();
 
     /**
      * get the armorstand
