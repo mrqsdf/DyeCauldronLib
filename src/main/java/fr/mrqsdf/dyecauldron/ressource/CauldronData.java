@@ -23,20 +23,20 @@ public class CauldronData implements Serializable {
      *
      * /!\ please set only armorstand uuid in this map
      */
-    Map<String, String > armorstand = new HashMap<>();
+    public Map<String, String > armorstand = new HashMap<>();
 
     /**
      * color of the cauldron in RGB complete format
      */
-    int color;
+    public int color;
     /**
      * level of the cauldron
      */
-    int level;
+    public int level;
     /**
      * list of another object in the cauldron
      */
-    List<Object> objects;
+    public List<Object> objects;
 
     /**
      * get the armorstand

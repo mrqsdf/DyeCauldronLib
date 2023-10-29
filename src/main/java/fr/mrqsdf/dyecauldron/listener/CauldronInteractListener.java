@@ -1,9 +1,11 @@
 package fr.mrqsdf.dyecauldron.listener;
 
+import com.jeff_media.customblockdata.CustomBlockData;
 import fr.mrqsdf.dyecauldron.DyeCauldron;
 import fr.mrqsdf.dyecauldron.armorstand.SummonArmorstand;
+import fr.mrqsdf.dyecauldron.ressource.CauldronData;
+import fr.mrqsdf.dyecauldron.ressource.CauldronPersistentDataType;
 import fr.mrqsdf.dyecauldron.ressource.DyeColorUtils;
-import jdk.jfr.Description;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -20,19 +22,18 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
-import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.persistence.PersistentDataContainer;
+
+import java.util.Arrays;
 
 public class CauldronInteractListener implements Listener {
 
 
-
-    @Description(
-            "When a player interact with a cauldron, the plugin summon an armorstand with the color of the dye in the cauldron"
-    )
+    /**
+     * When a player interact with a cauldron and a dye, the plugin summon an armorstand with the color of the dye in the cauldron
+     */
     @EventHandler
     public void onInteract(PlayerInteractEvent event){
-        if (!DyeCauldron.isPluginModActive) return;
         if (event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
         if (event.getHand() != EquipmentSlot.HAND) return;
         Player player = event.getPlayer();
@@ -40,6 +41,7 @@ public class CauldronInteractListener implements Listener {
         ItemStack item = player.getInventory().getItemInMainHand();
         if (!DyeColorUtils.dyeMaterial.contains(item.getType())) return;
         if (block.getType() == Material.CAULDRON || block.getType() == Material.LAVA_CAULDRON || block.getType() == Material.POWDER_SNOW_CAULDRON) return;
+        PersistentDataContainer persistentDataContainer = new CustomBlockData(block, DyeCauldron.plugin);
         Levelled cauldron = (Levelled) block.getBlockData();
         TileState tileState = (TileState) block.getState();
         int lvlData = cauldron.getLevel();
@@ -50,42 +52,46 @@ public class CauldronInteractListener implements Listener {
         location.setZ(location.getZ() + 0.5);
         ArmorStand armorStand = SummonArmorstand.summon(location, DyeColorUtils.dyeColor.get(item.getType())[0],
                 DyeColorUtils.dyeColor.get(item.getType())[1],DyeColorUtils.dyeColor.get(item.getType())[2], lvlData);
-        tileState.getPersistentDataContainer().set(new NamespacedKey(DyeCauldron.plugin, "armorstand"), PersistentDataType.STRING, armorStand.getUniqueId().toString());
-        tileState.getPersistentDataContainer().set(new NamespacedKey(DyeCauldron.plugin, "color"), PersistentDataType.INTEGER_ARRAY,DyeColorUtils.dyeColor.get(item.getType()));
-        tileState.getPersistentDataContainer().set(new NamespacedKey(DyeCauldron.plugin, "level"), PersistentDataType.INTEGER, lvlData);
-        tileState.update();
+        CauldronData cauldronData = new CauldronData();
+        cauldronData.armorstand.put("armorstandColor", armorStand.getUniqueId().toString());
+        cauldronData.color = Color.fromRGB(DyeColorUtils.dyeColor.get(item.getType())[0], DyeColorUtils.dyeColor.get(item.getType())[1], DyeColorUtils.dyeColor.get(item.getType())[2]).asRGB();
+        cauldronData.level = lvlData;
+        persistentDataContainer.set(new NamespacedKey(DyeCauldron.plugin, "cauldrondata"), new CauldronPersistentDataType(), cauldronData);
     }
 
-    @Description(
-            "When a player interact with a cauldron and a leather armor, the plugin summon an armorstand with the color of the dye in the cauldron"
-    )
+    /**
+     * When a player interact with a cauldron and a leather armor,
+     * the plugin color leather armor with the color of the dye in the cauldron
+     * and summon an armorstand with different level
+     */
     @EventHandler
     public void onInteractArmor(PlayerInteractEvent event){
-        if (!DyeCauldron.isPluginModActive) return;
         Player player = event.getPlayer();
         Block block = event.getClickedBlock();
         ItemStack item = player.getInventory().getItemInMainHand();
+        if (block == null) return;
         if (!DyeColorUtils.leatherMaterial.contains(item.getType())) return;
         LeatherArmorMeta itemMeta = (LeatherArmorMeta) item.getItemMeta();
-        if (!block.hasMetadata("armorstand")) return;
-        int lvlData = block.getMetadata("level").get(0).asInt();
+        PersistentDataContainer persistentDataContainer = new CustomBlockData(block, DyeCauldron.plugin);
+        if (!persistentDataContainer.has(new NamespacedKey(DyeCauldron.plugin, "cauldrondata"), new CauldronPersistentDataType())) return;
+        CauldronData cauldronData = persistentDataContainer.get(new NamespacedKey(DyeCauldron.plugin, "cauldrondata"), new CauldronPersistentDataType());
+        assert cauldronData != null;
+        int lvlData = cauldronData.level;
         if (lvlData == 0) return;
         itemMeta.setColor(Color.fromRGB(DyeColorUtils.dyeColor.get(item.getType())[0], DyeColorUtils.dyeColor.get(item.getType())[1], DyeColorUtils.dyeColor.get(item.getType())[2]));
-        ArmorStand previousArmorStand = (ArmorStand) block.getMetadata("armorstand").get(0).value();
+        ArmorStand previousArmorStand = cauldronData.getArmorstand("armorstandColor");
         previousArmorStand.remove();
-        block.removeMetadata("armorstand", DyeCauldron.plugin);
-        block.removeMetadata("level", DyeCauldron.plugin);
         lvlData--;
         if (lvlData == 0) {
-            block.removeMetadata("color", DyeCauldron.plugin);
+            persistentDataContainer.remove(new NamespacedKey(DyeCauldron.plugin, "cauldrondata"));
             return;
         }
         Location location = block.getLocation();
-        location.setX(location.getX() + 0.5);
-        location.setZ(location.getZ() + 0.5);
+        location.add(0.5,0,0.5);
         ArmorStand armorStand = SummonArmorstand.summon(location, DyeColorUtils.dyeColor.get(item.getType())[0],
                 DyeColorUtils.dyeColor.get(item.getType())[1],DyeColorUtils.dyeColor.get(item.getType())[2], lvlData);
-        block.setMetadata("armorstand", new FixedMetadataValue(DyeCauldron.plugin, armorStand));
-        block.setMetadata("level", new FixedMetadataValue(DyeCauldron.plugin, lvlData));
+        cauldronData.armorstand.replace("armorstandColor", armorStand.getUniqueId().toString());
+        cauldronData.level = lvlData;
+        persistentDataContainer.set(new NamespacedKey(DyeCauldron.plugin, "cauldrondata"), new CauldronPersistentDataType(), cauldronData);
     }
 }

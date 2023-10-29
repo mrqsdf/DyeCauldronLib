@@ -8,9 +8,9 @@ import org.bukkit.entity.ArmorStand;
 
 public class SummonArmorstand {
 
-    @Description(
-            "Summon an armorstand with the color of the dye in the cauldron"
-    )
+    /**
+     * summon a armorstand with a color
+     */
 
     public static ArmorStand summon(Location location, int r, int g, int b, int level) {
         ArmorStand armorStand = location.getWorld().spawn(location, ArmorStand.class);

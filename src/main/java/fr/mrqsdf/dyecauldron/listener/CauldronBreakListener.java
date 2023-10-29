@@ -17,7 +17,6 @@ public class CauldronBreakListener implements Listener {
 
     @EventHandler
     public void onBreak(BlockBreakEvent event) {
-        if (!DyeCauldron.isPluginModActive) return;
         Block block = event.getBlock();
         if (block.getType() != Material.CAULDRON) return;
         if (!block.hasMetadata("armorstand")) return;
