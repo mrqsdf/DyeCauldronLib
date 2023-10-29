@@ -41,9 +41,8 @@ public class CauldronInteractListener implements Listener {
         ItemStack item = player.getInventory().getItemInMainHand();
         if (!DyeColorUtils.dyeMaterial.contains(item.getType())) return;
         if (block.getType() == Material.CAULDRON || block.getType() == Material.LAVA_CAULDRON || block.getType() == Material.POWDER_SNOW_CAULDRON) return;
-        PersistentDataContainer persistentDataContainer = new CustomBlockData(block, DyeCauldron.plugin);
         Levelled cauldron = (Levelled) block.getBlockData();
-        TileState tileState = (TileState) block.getState();
+        PersistentDataContainer persistentDataContainer = new CustomBlockData(block, DyeCauldron.plugin);
         int lvlData = cauldron.getLevel();
         block.setType(Material.CAULDRON);
         if (cauldron.getLevel() == 0) return;
@@ -57,7 +56,7 @@ public class CauldronInteractListener implements Listener {
         cauldronData.color = Color.fromRGB(DyeColorUtils.dyeColor.get(item.getType())[0], DyeColorUtils.dyeColor.get(item.getType())[1], DyeColorUtils.dyeColor.get(item.getType())[2]).asRGB();
         cauldronData.level = lvlData;
         persistentDataContainer.set(new NamespacedKey(DyeCauldron.plugin, "cauldrondata"), new CauldronPersistentDataType(), cauldronData);
-    }
+        item.setAmount(item.getAmount()-1);}
 
     /**
      * When a player interact with a cauldron and a leather armor,
