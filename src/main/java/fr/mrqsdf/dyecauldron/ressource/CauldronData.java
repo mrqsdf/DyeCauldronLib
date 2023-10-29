@@ -1,0 +1,48 @@
+package fr.mrqsdf.dyecauldron.ressource;
+
+import org.bukkit.Bukkit;
+import org.bukkit.entity.ArmorStand;
+
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+/**
+ * this class is a data class for the cauldron
+ * @see CauldronPersistentDataType
+ */
+
+public class CauldronData implements Serializable {
+
+    /**
+     * this is a map of the armorstand in the cauldron
+     * the first string is the data name of the armorstand
+     * the second string is the armorstand uuid
+     *
+     * /!\ please set only armorstand uuid in this map
+     */
+    Map<String, String > armorstand = new HashMap<>();
+
+    /**
+     * color of the cauldron in RGB complete format
+     */
+    int color;
+    /**
+     * level of the cauldron
+     */
+    int level;
+    /**
+     * list of another object in the cauldron
+     */
+    List<Object> objects;
+
+    /**
+     * get the armorstand
+     */
+    public ArmorStand getArmorstand(String name) {
+        return (ArmorStand) Bukkit.getEntity(UUID.fromString(armorstand.get(name)));
+    }
+
+}
