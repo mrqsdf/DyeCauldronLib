@@ -2,10 +2,9 @@ package fr.mrqsdf.dyecauldron.api;
 
 import com.jeff_media.customblockdata.CustomBlockData;
 import fr.mrqsdf.dyecauldron.DyeCauldron;
-import fr.mrqsdf.dyecauldron.armorstand.SummonArmorstand;
+import fr.mrqsdf.dyecauldron.entity.SummonItemDisplay;
 import fr.mrqsdf.dyecauldron.ressource.CauldronData;
 import fr.mrqsdf.dyecauldron.ressource.CauldronPersistentDataType;
-import jdk.jfr.Description;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -32,8 +31,8 @@ public class DyeCauldronUse {
         int b = color & 0xFF;
         PersistentDataContainer persistentDataContainer = new CustomBlockData(block, DyeCauldron.plugin);
         CauldronData cauldronData = new CauldronData();
-        if (cauldronData.armorstand.containsKey("armorstandColor")) cauldronData.armorstand.remove("armorstandColor");
-        cauldronData.armorstand.putIfAbsent("armorstandColor", SummonArmorstand.summon(location, r, g, b, level).getUniqueId().toString());
+        if (cauldronData.entity.containsKey("itemdisplayColor")) cauldronData.entity.remove("itemdisplayColor");
+        cauldronData.entity.putIfAbsent("itemdisplayColor", SummonItemDisplay.summon(location, r, g, b, level).getUniqueId().toString());
         cauldronData.color = color;
         cauldronData.level = level;
         persistentDataContainer.set(new org.bukkit.NamespacedKey(DyeCauldron.plugin, "cauldrondata"), new CauldronPersistentDataType(), cauldronData);
@@ -45,12 +44,13 @@ public class DyeCauldronUse {
         location.add(0.5, 0, 0.5);
         PersistentDataContainer persistentDataContainer = new CustomBlockData(block, DyeCauldron.plugin);
         CauldronData cauldronData = new CauldronData();
-        if (cauldronData.armorstand.containsKey("armorstandColor")) cauldronData.armorstand.remove("armorstandColor");
-        cauldronData.armorstand.putIfAbsent("armorstandColor", SummonArmorstand.summon(location, r, g, b, level).getUniqueId().toString());
+        if (cauldronData.entity.containsKey("itemdisplayColor")) cauldronData.entity.remove("itemdisplayColor");
+        cauldronData.entity.putIfAbsent("itemdisplayColor", SummonItemDisplay.summon(location, r, g, b, level).getUniqueId().toString());
         cauldronData.color = Color.fromRGB(r, g, b).asRGB();
         cauldronData.level = level;
         persistentDataContainer.set(new org.bukkit.NamespacedKey(DyeCauldron.plugin, "cauldrondata"), new CauldronPersistentDataType(), cauldronData);
     }
+    @Deprecated
     public static void dyeCauldron(Block block, Color color, int level) {
         if (block.getType() != org.bukkit.Material.CAULDRON) throw new IllegalArgumentException("The block must be a cauldron");
         if (level > 3 || level < 1) throw new IllegalArgumentException("The level must be between 1 and 3");
@@ -58,8 +58,8 @@ public class DyeCauldronUse {
         location.add(0.5, 0, 0.5);
         PersistentDataContainer persistentDataContainer = new CustomBlockData(block, DyeCauldron.plugin);
         CauldronData cauldronData = new CauldronData();
-        if (cauldronData.armorstand.containsKey("armorstandColor")) cauldronData.armorstand.remove("armorstandColor");
-        cauldronData.armorstand.putIfAbsent("armorstandColor", SummonArmorstand.summon(location, color, level).getUniqueId().toString());
+        if (cauldronData.entity.containsKey("itemdisplayColor")) cauldronData.entity.remove("itemdisplayColor");
+        cauldronData.entity.putIfAbsent("itemdisplayColor", SummonItemDisplay.summon(location, color, level).getUniqueId().toString());
         cauldronData.color = color.asRGB();
         cauldronData.level = level;
         persistentDataContainer.set(new org.bukkit.NamespacedKey(DyeCauldron.plugin, "cauldrondata"), new CauldronPersistentDataType(), cauldronData);

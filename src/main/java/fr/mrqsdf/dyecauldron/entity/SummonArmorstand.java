@@ -1,7 +1,6 @@
-package fr.mrqsdf.dyecauldron.armorstand;
+package fr.mrqsdf.dyecauldron.entity;
 
 import fr.mrqsdf.dyecauldron.ressource.ItemPotionUtilities;
-import jdk.jfr.Description;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.entity.ArmorStand;
@@ -12,6 +11,7 @@ public class SummonArmorstand {
      * summon a armorstand with a color
      */
 
+    @Deprecated
     public static ArmorStand summon(Location location, int r, int g, int b, int level) {
         ArmorStand armorStand = location.getWorld().spawn(location, ArmorStand.class);
         armorStand.setGravity(false);
@@ -24,6 +24,7 @@ public class SummonArmorstand {
         if (level == 3) armorStand.setHelmet(ItemPotionUtilities.dyeCauldronLevel3(r, g, b));
         return armorStand;
     }
+    @Deprecated
     public static ArmorStand summon(Location location, Color color, int level) {
         ArmorStand armorStand = location.getWorld().spawn(location, ArmorStand.class);
         armorStand.setGravity(false);

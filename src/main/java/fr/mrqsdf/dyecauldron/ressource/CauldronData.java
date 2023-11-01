@@ -2,10 +2,10 @@ package fr.mrqsdf.dyecauldron.ressource;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Entity;
 
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -18,12 +18,10 @@ public class CauldronData implements Serializable {
 
     /**
      * this is a map of the armorstand in the cauldron
-     * the first string is the data name of the armorstand
-     * the second string is the armorstand uuid
-     *
-     * /!\ please set only armorstand uuid in this map
+     * the first string is the data name of the entity
+     * the second string is the entity uuid
      */
-    public Map<String, String > armorstand = new HashMap<>();
+    public Map<String, String > entity = new HashMap<>();
 
     /**
      * color of the cauldron in RGB complete format
@@ -43,8 +41,8 @@ public class CauldronData implements Serializable {
     /**
      * get the armorstand
      */
-    public ArmorStand getArmorstand(String name) {
-        return (ArmorStand) Bukkit.getEntity(UUID.fromString(armorstand.get(name)));
+    public Entity getEntity(String name) {
+        return Bukkit.getEntity(UUID.fromString(entity.get(name)));
     }
 
 }
